@@ -10,7 +10,7 @@ import "./Participants.sol";
 
 contract SupplyChain {
     enum STAGE {
-        ProgressNull,
+        // ProgressNull,
         Init,
         RawMaterialSupply,
         Manufacture,
@@ -19,10 +19,7 @@ contract SupplyChain {
         sold
     }
 
-    enum CATEGORY {
-        RawMaterial,
-        Product
-    }
+   
 
     struct TransactionStruct {
         uint256 id;
@@ -36,7 +33,6 @@ contract SupplyChain {
         string title;
         string description;
         uint256 quantity;
-    
         STAGE stage;
         uint256 timestamp;
     }
@@ -54,7 +50,7 @@ contract SupplyChain {
 
     
     TransactionStruct[] transactions;
-    mapping(uint256 => TransactionStruct[]) private supplyChainTransaction;
+    mapping(address => TransactionStruct[]) private supplyChainTransaction;
     
 
     // event CreateProduct(string product_title, uint product_Id);
@@ -126,7 +122,7 @@ contract SupplyChain {
     });
         
 
-        supplyChainTransaction[totalTx].push(newTransaction);
+        supplyChainTransaction[rmsAdd].push(newTransaction);
 
         // uint256 oldAmount = product.quantity;
         // product.quantity = oldAmount - productAmount;
@@ -177,7 +173,7 @@ contract SupplyChain {
     });
         
 
-        supplyChainTransaction[totalTx].push(newTransaction);
+        supplyChainTransaction[participants.getMAN()].push(newTransaction);
 
         // uint256 oldAmount = product.quantity;
         // product.quantity = oldAmount - productAmount;
@@ -232,7 +228,7 @@ contract SupplyChain {
     });
         
 
-        supplyChainTransaction[totalTx].push(newTransaction);
+        supplyChainTransaction[participants.getMAN()].push(newTransaction);
 
         // uint256 oldAmount = product.quantity;
         // product.quantity = oldAmount - productAmount;
@@ -288,7 +284,7 @@ contract SupplyChain {
     });
         
 
-        supplyChainTransaction[totalTx].push(newTransaction);
+        supplyChainTransaction[participants.getDIS()].push(newTransaction);
 
         // uint256 oldAmount = product.quantity;
         // product.quantity = oldAmount - productAmount;
@@ -344,7 +340,7 @@ contract SupplyChain {
     });
         
 
-        supplyChainTransaction[totalTx].push(newTransaction);
+        supplyChainTransaction[participants.getRET()].push(newTransaction);
 
         // uint256 oldAmount = product.quantity;
         // product.quantity = oldAmount - productAmount;
@@ -400,7 +396,7 @@ contract SupplyChain {
     });
         
 
-        supplyChainTransaction[totalTx].push(newTransaction);
+        supplyChainTransaction[participants.getDIS()].push(newTransaction);
 
        
 
@@ -423,8 +419,8 @@ contract SupplyChain {
     //     return transactions;
     // }
 
-    function getNftOfUsers(uint256 _id) public view returns (TransactionStruct[] memory) {
-    return supplyChainTransaction[_id];
+    function getNftOfUsers(address _owner) public view returns (TransactionStruct[] memory) {
+    return supplyChainTransaction[_owner];
     }
 
     // function getSupplyChainOfProduct(uint256 _productId) public view returns (TransactionStruct[] memory) {

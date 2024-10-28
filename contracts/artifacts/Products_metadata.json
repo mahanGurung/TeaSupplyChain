@@ -205,6 +205,11 @@
 						"internalType": "string",
 						"name": "_desc",
 						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "quantity",
+						"type": "uint256"
 					}
 				],
 				"name": "addProduct",
@@ -520,11 +525,6 @@
 								"type": "string"
 							},
 							{
-								"internalType": "enum Products.CATEGORY",
-								"name": "category",
-								"type": "uint8"
-							},
-							{
 								"internalType": "uint256",
 								"name": "quantity",
 								"type": "uint256"
@@ -554,41 +554,136 @@
 				"type": "function"
 			},
 			{
-				"inputs": [
+				"inputs": [],
+				"name": "getDisDetails",
+				"outputs": [
 					{
-						"internalType": "uint256",
-						"name": "_productId",
-						"type": "uint256"
+						"components": [
+							{
+								"internalType": "address",
+								"name": "addr",
+								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "id",
+								"type": "uint256"
+							},
+							{
+								"internalType": "string",
+								"name": "name",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "place",
+								"type": "string"
+							}
+						],
+						"internalType": "struct Participants.distributor[]",
+						"name": "",
+						"type": "tuple[]"
 					}
 				],
-				"name": "getProduct",
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getManDetails",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "addr",
+								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "id",
+								"type": "uint256"
+							},
+							{
+								"internalType": "string",
+								"name": "name",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "place",
+								"type": "string"
+							}
+						],
+						"internalType": "struct Participants.manufacturer[]",
+						"name": "",
+						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_owner",
+						"type": "address"
+					}
+				],
+				"name": "getProductOwner",
 				"outputs": [
 					{
 						"components": [
 							{
 								"internalType": "uint256",
-								"name": "product_Id",
+								"name": "id",
 								"type": "uint256"
-							},
-							{
-								"internalType": "string",
-								"name": "product_Title",
-								"type": "string"
 							},
 							{
 								"internalType": "uint256",
-								"name": "price",
+								"name": "productId",
+								"type": "uint256"
+							},
+							{
+								"internalType": "address",
+								"name": "owner",
+								"type": "address"
+							},
+							{
+								"internalType": "address",
+								"name": "RMS",
+								"type": "address"
+							},
+							{
+								"internalType": "address",
+								"name": "MAN",
+								"type": "address"
+							},
+							{
+								"internalType": "address",
+								"name": "DIS",
+								"type": "address"
+							},
+							{
+								"internalType": "address",
+								"name": "RET",
+								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "salePrice",
 								"type": "uint256"
 							},
 							{
 								"internalType": "string",
-								"name": "desc",
+								"name": "title",
 								"type": "string"
 							},
 							{
-								"internalType": "enum Products.CATEGORY",
-								"name": "category",
-								"type": "uint8"
+								"internalType": "string",
+								"name": "description",
+								"type": "string"
 							},
 							{
 								"internalType": "uint256",
@@ -596,24 +691,89 @@
 								"type": "uint256"
 							},
 							{
-								"internalType": "string",
-								"name": "nftUrl",
-								"type": "string"
-							},
-							{
-								"internalType": "enum Products.STAGE",
+								"internalType": "enum SupplyChain.STAGE",
 								"name": "stage",
 								"type": "uint8"
 							},
 							{
-								"internalType": "bool",
-								"name": "sold",
-								"type": "bool"
+								"internalType": "uint256",
+								"name": "timestamp",
+								"type": "uint256"
 							}
 						],
-						"internalType": "struct Products.Product",
+						"internalType": "struct SupplyChain.TransactionStruct[]",
 						"name": "",
-						"type": "tuple"
+						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getRetDetails",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "addr",
+								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "id",
+								"type": "uint256"
+							},
+							{
+								"internalType": "string",
+								"name": "name",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "place",
+								"type": "string"
+							}
+						],
+						"internalType": "struct Participants.retailer[]",
+						"name": "",
+						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getRmsDetails",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "addr",
+								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "id",
+								"type": "uint256"
+							},
+							{
+								"internalType": "string",
+								"name": "name",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "place",
+								"type": "string"
+							}
+						],
+						"internalType": "struct Participants.rawMaterialSupplier[]",
+						"name": "",
+						"type": "tuple[]"
 					}
 				],
 				"stateMutability": "view",
@@ -702,11 +862,6 @@
 						"internalType": "string",
 						"name": "desc",
 						"type": "string"
-					},
-					{
-						"internalType": "enum Products.CATEGORY",
-						"name": "category",
-						"type": "uint8"
 					},
 					{
 						"internalType": "uint256",
@@ -1102,11 +1257,11 @@
 			]
 		},
 		"contracts/Participants.sol": {
-			"keccak256": "0x8cddf1b22cbf5371f93d990235537854b28ca40c6716b741170c5abff61a9fd0",
+			"keccak256": "0xeccb3e76611bfeaff7cf30826f9d9cd8dc1386a812a4cbe914ffed6637cf18cc",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://213c42d238965b3071119028a88ca50d6303340b816ee5054a6d5af134619b62",
-				"dweb:/ipfs/QmbPwuHyNMSNqq2DPpeUJU5c5ofK3cPvpZMZSPCanv6Cpd"
+				"bzz-raw://31625f1382e532edaf1c07d1efae974c81b1ea8b1054645bc7712ea1911370d3",
+				"dweb:/ipfs/QmPWd4B6V9PBihrahCJ6X3m555J78AcFxs6Dt1uN9KJ6j2"
 			]
 		},
 		"contracts/ProductNFT.sol": {
@@ -1118,19 +1273,19 @@
 			]
 		},
 		"contracts/Products.sol": {
-			"keccak256": "0x9c7bc24c05e1f99704427ce705b97715b683bdfae9bd0cfff3939d25bc909350",
+			"keccak256": "0x63c710eb4ba19750902eb601491bcf5a91a4495f0ce9ca4c8aa8189cc0cfdd34",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://57878d14c760f6dc47c59a5d2e8d6ff81a77306281322094ed04bb8443b9832a",
-				"dweb:/ipfs/Qmds1VAasK41kfYB4ZiZwpnd4N3HQDbo8D5n7VCpUSjjFd"
+				"bzz-raw://fc98986b5c1b50123b12bb52449abdad5d667d0785c7d03103f07ccb94568c9c",
+				"dweb:/ipfs/Qme2knbCKqKGD4WikCrCbU3dTsFK8yapNa742NHpQxJsFz"
 			]
 		},
 		"contracts/SupplyChainPlace.sol": {
-			"keccak256": "0x6e3e17bc987d252875ee023580d0e1089c851cb3b5de0c4e413f9a565b398cfe",
+			"keccak256": "0x0628c37ca86b3750fec0fb711467c85efea647a547808c2333c082bec3bec625",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://7b5c9f5e0bea0c6cd82f99285666584efbfd7908f0100041f4e6ab7282fcc4fb",
-				"dweb:/ipfs/QmQCx4zW1m13uKZgARk6D1GnXDinQzF6BNiXw6PSwSJtPA"
+				"bzz-raw://31ac4ab9a282752963c64f740c355e53baa7960328a861d464ce3704149f02d4",
+				"dweb:/ipfs/QmbcHBmnnuWAYizNvVPvv7oamvX1JkPB9Eb4JjmZb7M11d"
 			]
 		}
 	},

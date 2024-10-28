@@ -248,6 +248,146 @@
 			},
 			{
 				"inputs": [],
+				"name": "getAllDistributor",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "addr",
+								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "id",
+								"type": "uint256"
+							},
+							{
+								"internalType": "string",
+								"name": "name",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "place",
+								"type": "string"
+							}
+						],
+						"internalType": "struct Participants.distributor[]",
+						"name": "",
+						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getAllManufacturer",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "addr",
+								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "id",
+								"type": "uint256"
+							},
+							{
+								"internalType": "string",
+								"name": "name",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "place",
+								"type": "string"
+							}
+						],
+						"internalType": "struct Participants.manufacturer[]",
+						"name": "",
+						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getAllRawMaterialSupplier",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "addr",
+								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "id",
+								"type": "uint256"
+							},
+							{
+								"internalType": "string",
+								"name": "name",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "place",
+								"type": "string"
+							}
+						],
+						"internalType": "struct Participants.rawMaterialSupplier[]",
+						"name": "",
+						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "getAllRetailers",
+				"outputs": [
+					{
+						"components": [
+							{
+								"internalType": "address",
+								"name": "addr",
+								"type": "address"
+							},
+							{
+								"internalType": "uint256",
+								"name": "id",
+								"type": "uint256"
+							},
+							{
+								"internalType": "string",
+								"name": "name",
+								"type": "string"
+							},
+							{
+								"internalType": "string",
+								"name": "place",
+								"type": "string"
+							}
+						],
+						"internalType": "struct Participants.retailer[]",
+						"name": "",
+						"type": "tuple[]"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
 				"name": "getDIS",
 				"outputs": [
 					{
@@ -366,11 +506,11 @@
 	},
 	"sources": {
 		"contracts/Participants.sol": {
-			"keccak256": "0x8cddf1b22cbf5371f93d990235537854b28ca40c6716b741170c5abff61a9fd0",
+			"keccak256": "0xeccb3e76611bfeaff7cf30826f9d9cd8dc1386a812a4cbe914ffed6637cf18cc",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://213c42d238965b3071119028a88ca50d6303340b816ee5054a6d5af134619b62",
-				"dweb:/ipfs/QmbPwuHyNMSNqq2DPpeUJU5c5ofK3cPvpZMZSPCanv6Cpd"
+				"bzz-raw://31625f1382e532edaf1c07d1efae974c81b1ea8b1054645bc7712ea1911370d3",
+				"dweb:/ipfs/QmPWd4B6V9PBihrahCJ6X3m555J78AcFxs6Dt1uN9KJ6j2"
 			]
 		}
 	},

@@ -50,6 +50,8 @@ contract Participants {
 
     
 
+    
+
      //To add raw material suppliers. Only contract owner can add a new raw material supplier
     function addRMS(
         address _address,
@@ -114,6 +116,39 @@ contract Participants {
     function getRET() public view returns (address addr) {
         require(rmsCount > 0, "Invalid retailor ID");
         return RET[rmsCount].addr;
+    }
+
+    function getAllRetailers() public view returns (retailer[] memory) {
+        retailer[] memory retailersArray = new retailer[](retCount);
+        for (uint256 i = 1; i <= retCount; i++) {
+            retailersArray[i - 1] = RET[i];
+        }
+        return retailersArray;
+    }
+
+    function getAllRawMaterialSupplier() public view returns (rawMaterialSupplier[] memory) {
+        rawMaterialSupplier[] memory rawMaterialSupplierArray = new rawMaterialSupplier[](rmsCount);
+        for (uint256 i = 1; i <= rmsCount; i++) {
+            rawMaterialSupplierArray[i - 1] = RMS[i];
+        }
+        return rawMaterialSupplierArray;
+    }
+
+    function getAllDistributor() public view returns (distributor[] memory) {
+        distributor[] memory distributorArray = new distributor[](disCount);
+        for (uint256 i = 1; i <= disCount; i++) {
+            distributorArray[i - 1] = DIS[i];
+        }
+        return distributorArray;
+    }
+
+
+    function getAllManufacturer() public view returns (manufacturer[] memory) {
+        manufacturer[] memory manufacturerArray = new manufacturer[](manCount);
+        for (uint256 i = 1; i <= manCount; i++) {
+            manufacturerArray[i - 1] = MAN[i];
+        }
+        return manufacturerArray;
     }
 
 }

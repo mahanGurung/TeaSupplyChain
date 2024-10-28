@@ -55,6 +55,7 @@ contract Products {
         _;
     }
 
+
     function addRMS(address _address,string memory _name,string memory _place) public onlyRegistrar {
         participants.addRMS(_address, _name, _place);
     }
@@ -83,17 +84,11 @@ contract Products {
         sold
     }
 
-    enum CATEGORY {
-        RawMaterial,
-        Product
-    }
-
     struct Product {
         uint product_Id;
         string product_Title;
         uint price;
         string desc;
-        CATEGORY category;
         uint quantity;
         string nftUrl;
         STAGE stage;
@@ -108,20 +103,16 @@ contract Products {
     event BuyProduct(uint product_Id, address buyer);
 
 
-
-
-
-    function getProduct(uint _productId) public view returns (Product memory) {
-        require(_productId > 0 && _productId <= productCount, "Invalid product ID");
-        return products[_productId - 1];
-    }
-
     function getAllProduct() public view returns (Product[] memory) {
         return products;
     }
 
     function fetchTransactionsSupplyChainOfProduct(uint256 _productId) public view returns (SupplyChain.TransactionStruct[] memory) {
         return supplyChain.getSupplyChainByProductId(_productId);
+    }
+
+    function getProductOwner(address _owner) public view returns (SupplyChain.TransactionStruct[] memory) {
+            return supplyChain.getNftOfUsers(_owner);
     }
 
 
@@ -141,11 +132,21 @@ contract Products {
         erc721Token.transfer(_to, tokenId);
     }
 
-    // function initializeErc20Token(uint tokenId,uint _quantity) public {
-    //     address erc721TokenAddress = erc721Token.getContractAddress();
-    //     erc20Token.initialize(erc721TokenAddress, _quantity,tokenId);
-    // }
+    function getRmsDetails() public view returns (Participants.rawMaterialSupplier[] memory){
+        return participants.getAllRawMaterialSupplier();
+    }
 
+    function getManDetails() public view returns (Participants.manufacturer[] memory){
+        return participants.getAllManufacturer();
+    }
+
+    function getDisDetails() public view returns (Participants.distributor[] memory){
+        return participants.getAllDistributor();
+    }
+
+    function getRetDetails() public view returns (Participants.retailer[] memory){
+        return participants.getAllRetailers();
+    }
 
 
     function initialize(address _to,uint tokenId,uint _quantity,string memory nftUrl) public{
@@ -169,7 +170,6 @@ contract Products {
             product_Title: _rM_Title,
             price: _price,
             desc: _desc,
-            category: CATEGORY.RawMaterial,
             quantity: _quantity,
             nftUrl: url,
             
@@ -187,18 +187,12 @@ contract Products {
         
     }
 
-    function addProduct (string memory _rM_Title, uint256 _price, string memory _desc) public onlyMAN {
+    function addProduct (string memory _rM_Title, uint256 _price, string memory _desc, uint256 quantity) public onlyMAN {
         require(_price > 0, "Price must be above zero");
-        // productCount++;
-        // initialize(address(this),productCount,_quantity, url);
+       
         require(erc20Token.balanceOf(msg.sender) != 0, "You do not own the required fractional tokens");
 
-
-        // 
-        
-
-        // products.push(tempProduct);
-        supplyChain.Manufacture(productCount, _rM_Title, _price, _desc, erc20Token.balanceOf(msg.sender));
+        supplyChain.Manufacture(productCount, _rM_Title, _price, _desc, quantity);
         emit CreateProduct(_rM_Title, productCount);
 
         
@@ -218,14 +212,12 @@ contract Products {
 
         Product storage product = products[_productId - 1];
 
-        // Product memory product = products[];
+
         require(product.sold == false, "Product already sold");
 
-        uint totalProPrice = product.price / product.quantity;
+        uint totalProPrice = product.price;
         uint totalPrice = totalProPrice * itemAmount;
         
-
-        // address tokenOwner = owner();
         require(msg.value >= totalPrice, "Not enough ether");
 
         address rmsAddr = participants.getRMS();
@@ -247,7 +239,7 @@ contract Products {
         emit BuyProduct(_productId, msg.sender);
     }
 
-    function buyTokenFromMAN(uint _productId, uint256 itemAmount) public payable onlyDIS {
+    function buyTokenFromMAN(uint _productId, uint256 itemAmount) public payable  onlyDIS {
         require(_productId > 0 && _productId <= productCount, "Invalid product ID");
         require(erc20Token.balanceOf(participants.getMAN()) != 0, "You do not own the required fractional tokens");
 
@@ -255,14 +247,12 @@ contract Products {
 
         Product storage product = products[_productId - 1];
 
-        // Products.Product memory product = products.getProduct(_productId, productCount);
-        require(product.sold == false, "Product already sold");
+        
 
-        uint totalProPrice = product.price / product.quantity;
+        uint totalProPrice = product.price ;
         uint totalPrice = totalProPrice * itemAmount;
         
 
-        // address tokenOwner = owner();
         require(msg.value >= totalPrice, "Not enough ether");
 
 
@@ -271,8 +261,7 @@ contract Products {
 
 
         erc20Token.BuyToken(manAddr, msg.sender, itemAmount); 
-        uint256 oldAmount = product.quantity;
-        product.quantity = oldAmount - itemAmount;
+        
         
         supplyChain.Distributor(productCount, product.product_Title, product.desc, totalPrice, itemAmount);
           
@@ -285,11 +274,9 @@ contract Products {
         require(erc20Token.balanceOf(participants.getDIS()) != 0, "You do not own the required fractional tokens");
         Product storage product = products[_productId - 1];
 
+        
 
-        // Products.Product memory product = products.getProduct(_productId, productCount);
-        require(product.sold == false, "Product already sold");
-
-        uint totalProPrice = product.price / product.quantity;
+        uint totalProPrice = product.price;
         uint totalPrice = totalProPrice * itemAmount;
         
 
@@ -301,8 +288,6 @@ contract Products {
 
 
         erc20Token.BuyToken(disAddr, msg.sender, itemAmount);
-        uint256 oldAmount = product.quantity;
-        product.quantity = oldAmount - itemAmount;    
 
         supplyChain.Retailor(productCount, product.product_Title, product.desc, totalPrice, itemAmount);
 
@@ -316,39 +301,23 @@ contract Products {
 
         Product storage product = products[_productId - 1];
 
-
-        // Products.Product memory product = products.getProduct(_productId, productCount);
-        require(product.sold == false, "Product already sold");
-
-        uint totalProPrice = product.price / product.quantity;
-        uint totalPrice = totalProPrice * itemAmount;
         
 
-        // address tokenOwner = owner();
+        uint totalProPrice = product.price;
+        uint totalPrice = totalProPrice * itemAmount;
+        
         require(msg.value >= totalPrice, "Not enough ether");
 
-        address disAddr = participants.getDIS();
-        tranferEth(disAddr, totalPrice);
+        address retAddr = participants.getRET();
+        tranferEth(retAddr, totalPrice);
 
 
-        erc20Token.BuyToken(disAddr, msg.sender, itemAmount);
-        uint256 oldAmount = product.quantity;
-        product.quantity = oldAmount - itemAmount;
+        erc20Token.BuyToken(retAddr, msg.sender, itemAmount);
 
         supplyChain.Buyer(msg.sender, productCount, product.product_Title, product.desc, totalPrice, itemAmount);
 
         emit BuyProduct(_productId, msg.sender);
     }
-
-    // function updateProductPrice(uint _productId, uint _newPrice) public onlyRegistrar {
-    //     require(_productId > 0 && _productId < productCount, "Invalid product ID");
-    //     require(_newPrice > 0, "Price must be above zero");
-        
-    //     Product storage product = products[_productId - 1];
-    //     product.price = _newPrice;
-
-    //     emit UpdateProductPrice(_productId, _newPrice);
-    // }
 
 
 }
